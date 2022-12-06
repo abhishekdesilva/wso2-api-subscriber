@@ -1,0 +1,93 @@
+HOST : localhost
+TRANSPORT_PORT : 9443
+CLIENT_KEY : WdKva7s4QxZtJMmViz4HrRprKDEa
+CLIENT_SECRET : WvClbk23ojG3MEfPwJ9r_HgewMsa
+SANDBOX_ENDPOINT : https://udemy.com
+PRODUCTION_ENDPOINT : https://udemy.sg
+USERNAME : admin
+PASSWORD : admin
+API_LIMIT : 250
+IDS : 833f2360-0cd7-44ff-b609-89ead765c38d,cfc86907-01c7-42a9-b35f-ec4d37d22166,e02b1d12-d581-4a22-9fbb-e1ffa3e09a42,116d5994-1194-4c40-ba91-87522e684302,329e0313-1e80-436c-a22b-34ebbadfe255,63f53be5-fa2c-4385-8cb4-d6e1e559b129
+THROTTLE_POLICY : Unlimited
+REQ_THROTTLE_POLICY : Gold
+ACCESS TOKEN : a6103872-acf8-30ca-a9b7-5493c08c0265
+*************************************************************
+WebSocket API is identified : 59baabed-e2b4-441b-8663-c6c4bcd08c85. Hence, skipping updating the endpoints of the API
+*************************************************************
+Total Number of APIs identified : 6
+*************************************************************
+Total Number of Applications read from the configuration : 6
+*************************************************************
+API Id : 44bb948a-baf6-4a93-8c63-72aabe3e6a4f is already subscribed to Application  Id : 833f2360-0cd7-44ff-b609-89ead765c38d
+*************************************************************
+API Id : a985b297-ff98-48b7-b8a5-b0feb42d9ebf is already subscribed to Application  Id : 833f2360-0cd7-44ff-b609-89ead765c38d
+*************************************************************
+API Id : f17b98a5-7bb4-4216-8153-fc0e827a029d is already subscribed to Application  Id : 833f2360-0cd7-44ff-b609-89ead765c38d
+*************************************************************
+API Id : bc63e326-10d6-4ea6-adab-b5f985ed7505 is already subscribed to Application  Id : 833f2360-0cd7-44ff-b609-89ead765c38d
+*************************************************************
+API Id : e7874033-37ad-4acc-8b20-f5acb83bb952 is already subscribed to Application  Id : 833f2360-0cd7-44ff-b609-89ead765c38d
+*************************************************************
+API Id : 6b137620-13d4-40ad-8d6b-0a554420fa45 is already subscribed to Application  Id : 833f2360-0cd7-44ff-b609-89ead765c38d
+*************************************************************
+API Id : 44bb948a-baf6-4a93-8c63-72aabe3e6a4f is already subscribed to Application  Id : cfc86907-01c7-42a9-b35f-ec4d37d22166
+*************************************************************
+API Id : a985b297-ff98-48b7-b8a5-b0feb42d9ebf is already subscribed to Application  Id : cfc86907-01c7-42a9-b35f-ec4d37d22166
+*************************************************************
+API Id : f17b98a5-7bb4-4216-8153-fc0e827a029d is already subscribed to Application  Id : cfc86907-01c7-42a9-b35f-ec4d37d22166
+*************************************************************
+API Id : bc63e326-10d6-4ea6-adab-b5f985ed7505 is already subscribed to Application  Id : cfc86907-01c7-42a9-b35f-ec4d37d22166
+*************************************************************
+API Id : e7874033-37ad-4acc-8b20-f5acb83bb952 is already subscribed to Application  Id : cfc86907-01c7-42a9-b35f-ec4d37d22166
+*************************************************************
+API Id : 6b137620-13d4-40ad-8d6b-0a554420fa45 is already subscribed to Application  Id : cfc86907-01c7-42a9-b35f-ec4d37d22166
+*************************************************************
+API Id : 44bb948a-baf6-4a93-8c63-72aabe3e6a4f is already subscribed to Application  Id : e02b1d12-d581-4a22-9fbb-e1ffa3e09a42
+*************************************************************
+API Id : a985b297-ff98-48b7-b8a5-b0feb42d9ebf is already subscribed to Application  Id : e02b1d12-d581-4a22-9fbb-e1ffa3e09a42
+*************************************************************
+API Id : f17b98a5-7bb4-4216-8153-fc0e827a029d is already subscribed to Application  Id : e02b1d12-d581-4a22-9fbb-e1ffa3e09a42
+*************************************************************
+API Id : bc63e326-10d6-4ea6-adab-b5f985ed7505 is already subscribed to Application  Id : e02b1d12-d581-4a22-9fbb-e1ffa3e09a42
+*************************************************************
+API Id : e7874033-37ad-4acc-8b20-f5acb83bb952 is already subscribed to Application  Id : e02b1d12-d581-4a22-9fbb-e1ffa3e09a42
+*************************************************************
+API Id : 6b137620-13d4-40ad-8d6b-0a554420fa45 is already subscribed to Application  Id : e02b1d12-d581-4a22-9fbb-e1ffa3e09a42
+*************************************************************
+API Id : 44bb948a-baf6-4a93-8c63-72aabe3e6a4f is already subscribed to Application  Id : 116d5994-1194-4c40-ba91-87522e684302
+*************************************************************
+API Id : a985b297-ff98-48b7-b8a5-b0feb42d9ebf is already subscribed to Application  Id : 116d5994-1194-4c40-ba91-87522e684302
+*************************************************************
+API Id : f17b98a5-7bb4-4216-8153-fc0e827a029d is already subscribed to Application  Id : 116d5994-1194-4c40-ba91-87522e684302
+*************************************************************
+API Id : bc63e326-10d6-4ea6-adab-b5f985ed7505 is already subscribed to Application  Id : 116d5994-1194-4c40-ba91-87522e684302
+*************************************************************
+API Id : e7874033-37ad-4acc-8b20-f5acb83bb952 is already subscribed to Application  Id : 116d5994-1194-4c40-ba91-87522e684302
+*************************************************************
+API Id : 6b137620-13d4-40ad-8d6b-0a554420fa45 is already subscribed to Application  Id : 116d5994-1194-4c40-ba91-87522e684302
+*************************************************************
+API Id : 44bb948a-baf6-4a93-8c63-72aabe3e6a4f is already subscribed to Application  Id : 329e0313-1e80-436c-a22b-34ebbadfe255
+*************************************************************
+API Id : a985b297-ff98-48b7-b8a5-b0feb42d9ebf is already subscribed to Application  Id : 329e0313-1e80-436c-a22b-34ebbadfe255
+*************************************************************
+API Id : f17b98a5-7bb4-4216-8153-fc0e827a029d is already subscribed to Application  Id : 329e0313-1e80-436c-a22b-34ebbadfe255
+*************************************************************
+API Id : bc63e326-10d6-4ea6-adab-b5f985ed7505 is already subscribed to Application  Id : 329e0313-1e80-436c-a22b-34ebbadfe255
+*************************************************************
+API Id : e7874033-37ad-4acc-8b20-f5acb83bb952 is already subscribed to Application  Id : 329e0313-1e80-436c-a22b-34ebbadfe255
+*************************************************************
+API Id : 6b137620-13d4-40ad-8d6b-0a554420fa45 is already subscribed to Application  Id : 329e0313-1e80-436c-a22b-34ebbadfe255
+*************************************************************
+API Id : 44bb948a-baf6-4a93-8c63-72aabe3e6a4f is already subscribed to Application  Id : 63f53be5-fa2c-4385-8cb4-d6e1e559b129
+*************************************************************
+API Id : a985b297-ff98-48b7-b8a5-b0feb42d9ebf is already subscribed to Application  Id : 63f53be5-fa2c-4385-8cb4-d6e1e559b129
+*************************************************************
+API Id : f17b98a5-7bb4-4216-8153-fc0e827a029d is already subscribed to Application  Id : 63f53be5-fa2c-4385-8cb4-d6e1e559b129
+*************************************************************
+API Id : bc63e326-10d6-4ea6-adab-b5f985ed7505 is already subscribed to Application  Id : 63f53be5-fa2c-4385-8cb4-d6e1e559b129
+*************************************************************
+API Id : e7874033-37ad-4acc-8b20-f5acb83bb952 is already subscribed to Application  Id : 63f53be5-fa2c-4385-8cb4-d6e1e559b129
+*************************************************************
+API Id : 6b137620-13d4-40ad-8d6b-0a554420fa45 is already subscribed to Application  Id : 63f53be5-fa2c-4385-8cb4-d6e1e559b129
+*************************************************************
+All the APIs were successfully subscribed into the given list of Applications.
