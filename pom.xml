@@ -8,11 +8,11 @@
 		<version>2.7.1</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.wso2.api.revisioner</groupId>
-	<artifactId>wso2-api-revisioner-tool</artifactId>
+	<groupId>com.wso2.api.subscriber</groupId>
+	<artifactId>wso2-api-subscriber-tool</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>wso2.api.revisioner</name>
-	<description>Project to revision WSO2 APIs</description>
+	<name>wso2.api.subscriber</name>
+	<description>Project to subscribe all WSO2 APIs to a set of Applications</description>
 	<properties>
 		<java.version>1.8</java.version>
 	</properties>

@@ -35,10 +35,10 @@ public class Application {
     private static String TRANSPORT_PORT = "";
     private static String CLIENT_KEY = "";
     private static String CLIENT_SECRET = "";
-    private static String SANDBOX_ENDPOINT = "";
-    private static String PRODUCTION_ENDPOINT = "";
-    private static String SANDBOX_WS_ENDPOINT = "";
-    private static String PRODUCTION_WS_ENDPOINT = "";
+//    private static String SANDBOX_ENDPOINT = "";
+//    private static String PRODUCTION_ENDPOINT = "";
+//    private static String SANDBOX_WS_ENDPOINT = "";
+//    private static String PRODUCTION_WS_ENDPOINT = "";
     private static String USERNAME = "";
     private static String PASSWORD = "";
     private static String API_LIMIT = "";
@@ -50,10 +50,10 @@ public class Application {
     private static String APPLICATION_TRANSPORT_PORT = "application.transport.port";
     private static String APPLICATION_CLIENT_KEY = "application.client.key";
     private static String APPLICATION_CLIENT_SECRET = "application.client.secret";
-    private static String APPLICATION_SANDBOX_ENDPOINT = "application.sandbox.endpoint";
-    private static String APPLICATION_PRODUCTION_ENDPOINT = "application.production.endpoint";
-    private static String APPLICATION_SANDBOX_WS_ENDPOINT = "application.sandbox.ws.endpoint";
-    private static String APPLICATION_PRODUCTION_WS_ENDPOINT = "application.production.ws.endpoint";
+//    private static String APPLICATION_SANDBOX_ENDPOINT = "application.sandbox.endpoint";
+//    private static String APPLICATION_PRODUCTION_ENDPOINT = "application.production.endpoint";
+//    private static String APPLICATION_SANDBOX_WS_ENDPOINT = "application.sandbox.ws.endpoint";
+//    private static String APPLICATION_PRODUCTION_WS_ENDPOINT = "application.production.ws.endpoint";
     private static String APPLICATION_USERNAME = "application.username";
     private static String APPLICATION_PASSWORD = "application.password";
     private static String APPLICATION_API_LIMIT = "application.api.limit";
@@ -61,9 +61,9 @@ public class Application {
     private static String APPLICATION_THROTTLE_POLICY = "application.throttling.policy";
     private static String APPLICATION_REQ_THROTTLE_POLICY = "application.req.throttling.policy";
 
-    private static String GATEWAY_NAME = "";
-    private static String VHOST = "";
-    private static boolean DISPLAY_ON_DEV_PORTAL = true;
+//    private static String GATEWAY_NAME = "";
+//    private static String VHOST = "";
+//    private static boolean DISPLAY_ON_DEV_PORTAL = true;
 
     static {
         Properties properties = FileUtils.readConfiguration();
@@ -71,10 +71,10 @@ public class Application {
         TRANSPORT_PORT = properties.getProperty(APPLICATION_TRANSPORT_PORT, "");
         CLIENT_KEY = properties.getProperty(APPLICATION_CLIENT_KEY, "");
         CLIENT_SECRET = properties.getProperty(APPLICATION_CLIENT_SECRET, "");
-        SANDBOX_ENDPOINT = properties.getProperty(APPLICATION_SANDBOX_ENDPOINT, "");
-        PRODUCTION_ENDPOINT = properties.getProperty(APPLICATION_PRODUCTION_ENDPOINT, "");
-        SANDBOX_WS_ENDPOINT = properties.getProperty(APPLICATION_SANDBOX_WS_ENDPOINT, "");
-        PRODUCTION_WS_ENDPOINT = properties.getProperty(APPLICATION_PRODUCTION_WS_ENDPOINT, "");
+//        SANDBOX_ENDPOINT = properties.getProperty(APPLICATION_SANDBOX_ENDPOINT, "");
+//        PRODUCTION_ENDPOINT = properties.getProperty(APPLICATION_PRODUCTION_ENDPOINT, "");
+//        SANDBOX_WS_ENDPOINT = properties.getProperty(APPLICATION_SANDBOX_WS_ENDPOINT, "");
+//        PRODUCTION_WS_ENDPOINT = properties.getProperty(APPLICATION_PRODUCTION_WS_ENDPOINT, "");
         USERNAME = properties.getProperty(APPLICATION_USERNAME, "");
         PASSWORD = properties.getProperty(APPLICATION_PASSWORD, "");
         API_LIMIT = properties.getProperty(APPLICATION_API_LIMIT, "");
@@ -96,8 +96,8 @@ public class Application {
             System.out.println("TRANSPORT_PORT : " + TRANSPORT_PORT);
             System.out.println("CLIENT_KEY : " + CLIENT_KEY);
             System.out.println("CLIENT_SECRET : " + CLIENT_SECRET);
-            System.out.println("SANDBOX_ENDPOINT : " + SANDBOX_ENDPOINT);
-            System.out.println("PRODUCTION_ENDPOINT : " + PRODUCTION_ENDPOINT);
+//            System.out.println("SANDBOX_ENDPOINT : " + SANDBOX_ENDPOINT);
+//            System.out.println("PRODUCTION_ENDPOINT : " + PRODUCTION_ENDPOINT);
             System.out.println("USERNAME : " + USERNAME);
             System.out.println("PASSWORD : " + PASSWORD);
             System.out.println("API_LIMIT : " + API_LIMIT);
@@ -109,8 +109,8 @@ public class Application {
             pw.println("TRANSPORT_PORT : " + TRANSPORT_PORT);
             pw.println("CLIENT_KEY : " + CLIENT_KEY);
             pw.println("CLIENT_SECRET : " + CLIENT_SECRET);
-            pw.println("SANDBOX_ENDPOINT : " + SANDBOX_ENDPOINT);
-            pw.println("PRODUCTION_ENDPOINT : " + PRODUCTION_ENDPOINT);
+//            pw.println("SANDBOX_ENDPOINT : " + SANDBOX_ENDPOINT);
+//            pw.println("PRODUCTION_ENDPOINT : " + PRODUCTION_ENDPOINT);
             pw.println("USERNAME : " + USERNAME);
             pw.println("PASSWORD : " + PASSWORD);
             pw.println("API_LIMIT : " + API_LIMIT);
@@ -119,8 +119,8 @@ public class Application {
             pw.println("REQ_THROTTLE_POLICY : " + REQ_THROTTLE_POLICY);
 
             if (!HOST.equals("") && !TRANSPORT_PORT.equals("") && !CLIENT_KEY.equals("") && !CLIENT_SECRET.equals("")
-                    && !SANDBOX_ENDPOINT.equals("") && !PRODUCTION_ENDPOINT.equals("") && !USERNAME.equals("")
-                    && !PASSWORD.equals("") && !API_LIMIT.equals("") && !IDS.equals("") && !THROTTLE_POLICY.equals("") && !REQ_THROTTLE_POLICY.equals("")) {
+                    && !USERNAME.equals("") && !PASSWORD.equals("") && !API_LIMIT.equals("") && !IDS.equals("")
+                    && !THROTTLE_POLICY.equals("") && !REQ_THROTTLE_POLICY.equals("")) {
                 String accessToken = generateAccessToken(pw);
                 System.out.println("*************************************************************");
                 pw.println("*************************************************************");
