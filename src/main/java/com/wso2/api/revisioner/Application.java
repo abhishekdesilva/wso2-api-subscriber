@@ -7,6 +7,8 @@ import java.security.NoSuchAlgorithmException;
 import java.security.cert.X509Certificate;
 import java.util.*;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.wso2.api.revisioner.utils.FileUtils;
 import org.apache.http.client.methods.*;
 import org.apache.http.conn.ssl.NoopHostnameVerifier;
@@ -25,6 +27,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
+
 import org.apache.commons.io.IOUtils;
 import com.google.gson.Gson;
 
@@ -35,7 +38,7 @@ public class Application {
     private static String TRANSPORT_PORT = "";
     private static String CLIENT_KEY = "";
     private static String CLIENT_SECRET = "";
-//    private static String SANDBOX_ENDPOINT = "";
+    //    private static String SANDBOX_ENDPOINT = "";
 //    private static String PRODUCTION_ENDPOINT = "";
 //    private static String SANDBOX_WS_ENDPOINT = "";
 //    private static String PRODUCTION_WS_ENDPOINT = "";
@@ -44,26 +47,21 @@ public class Application {
     private static String API_LIMIT = "";
     private static String IDS = "";
     private static String THROTTLE_POLICY = "";
-    private static String REQ_THROTTLE_POLICY = "";
+    private static String WS_THROTTLE_POLICY = "";
+    //    private static String REQ_THROTTLE_POLICY = "";
+    private static final String REST = "REST";
+    private static final String WS = "WS";
 
-    private static String APPLICATION_HOST = "application.host";
-    private static String APPLICATION_TRANSPORT_PORT = "application.transport.port";
-    private static String APPLICATION_CLIENT_KEY = "application.client.key";
-    private static String APPLICATION_CLIENT_SECRET = "application.client.secret";
-//    private static String APPLICATION_SANDBOX_ENDPOINT = "application.sandbox.endpoint";
-//    private static String APPLICATION_PRODUCTION_ENDPOINT = "application.production.endpoint";
-//    private static String APPLICATION_SANDBOX_WS_ENDPOINT = "application.sandbox.ws.endpoint";
-//    private static String APPLICATION_PRODUCTION_WS_ENDPOINT = "application.production.ws.endpoint";
-    private static String APPLICATION_USERNAME = "application.username";
-    private static String APPLICATION_PASSWORD = "application.password";
-    private static String APPLICATION_API_LIMIT = "application.api.limit";
-    private static String APPLICATION_IDS = "application.ids";
-    private static String APPLICATION_THROTTLE_POLICY = "application.throttling.policy";
-    private static String APPLICATION_REQ_THROTTLE_POLICY = "application.req.throttling.policy";
-
-//    private static String GATEWAY_NAME = "";
-//    private static String VHOST = "";
-//    private static boolean DISPLAY_ON_DEV_PORTAL = true;
+    private static final String APPLICATION_HOST = "application.host";
+    private static final String APPLICATION_TRANSPORT_PORT = "application.transport.port";
+    private static final String APPLICATION_CLIENT_KEY = "application.client.key";
+    private static final String APPLICATION_CLIENT_SECRET = "application.client.secret";
+    private static final String APPLICATION_USERNAME = "application.username";
+    private static final String APPLICATION_PASSWORD = "application.password";
+    private static final String APPLICATION_API_LIMIT = "application.api.limit";
+    private static final String APPLICATION_IDS = "application.ids";
+    private static final String APPLICATION_THROTTLE_POLICY = "application.throttling.policy";
+    private static final String APPLICATION_WS_THROTTLE_POLICY = "application.ws.throttling.policy";
 
     static {
         Properties properties = FileUtils.readConfiguration();
@@ -71,16 +69,12 @@ public class Application {
         TRANSPORT_PORT = properties.getProperty(APPLICATION_TRANSPORT_PORT, "");
         CLIENT_KEY = properties.getProperty(APPLICATION_CLIENT_KEY, "");
         CLIENT_SECRET = properties.getProperty(APPLICATION_CLIENT_SECRET, "");
-//        SANDBOX_ENDPOINT = properties.getProperty(APPLICATION_SANDBOX_ENDPOINT, "");
-//        PRODUCTION_ENDPOINT = properties.getProperty(APPLICATION_PRODUCTION_ENDPOINT, "");
-//        SANDBOX_WS_ENDPOINT = properties.getProperty(APPLICATION_SANDBOX_WS_ENDPOINT, "");
-//        PRODUCTION_WS_ENDPOINT = properties.getProperty(APPLICATION_PRODUCTION_WS_ENDPOINT, "");
         USERNAME = properties.getProperty(APPLICATION_USERNAME, "");
         PASSWORD = properties.getProperty(APPLICATION_PASSWORD, "");
         API_LIMIT = properties.getProperty(APPLICATION_API_LIMIT, "");
         IDS = properties.getProperty(APPLICATION_IDS, "");
         THROTTLE_POLICY = properties.getProperty(APPLICATION_THROTTLE_POLICY, "");
-        REQ_THROTTLE_POLICY = properties.getProperty(APPLICATION_REQ_THROTTLE_POLICY, "");
+        WS_THROTTLE_POLICY = properties.getProperty(APPLICATION_WS_THROTTLE_POLICY, "");
     }
 
     public static void main(String[] args) {
@@ -96,65 +90,90 @@ public class Application {
             System.out.println("TRANSPORT_PORT : " + TRANSPORT_PORT);
             System.out.println("CLIENT_KEY : " + CLIENT_KEY);
             System.out.println("CLIENT_SECRET : " + CLIENT_SECRET);
-//            System.out.println("SANDBOX_ENDPOINT : " + SANDBOX_ENDPOINT);
-//            System.out.println("PRODUCTION_ENDPOINT : " + PRODUCTION_ENDPOINT);
             System.out.println("USERNAME : " + USERNAME);
             System.out.println("PASSWORD : " + PASSWORD);
             System.out.println("API_LIMIT : " + API_LIMIT);
             System.out.println("IDS : " + IDS);
             System.out.println("THROTTLE_POLICY : " + THROTTLE_POLICY);
-            System.out.println("REQ_THROTTLE_POLICY : " + REQ_THROTTLE_POLICY);
+            System.out.println("WS_THROTTLE_POLICY : " + WS_THROTTLE_POLICY);
 
             pw.println("HOST : " + HOST);
             pw.println("TRANSPORT_PORT : " + TRANSPORT_PORT);
             pw.println("CLIENT_KEY : " + CLIENT_KEY);
             pw.println("CLIENT_SECRET : " + CLIENT_SECRET);
-//            pw.println("SANDBOX_ENDPOINT : " + SANDBOX_ENDPOINT);
-//            pw.println("PRODUCTION_ENDPOINT : " + PRODUCTION_ENDPOINT);
             pw.println("USERNAME : " + USERNAME);
             pw.println("PASSWORD : " + PASSWORD);
             pw.println("API_LIMIT : " + API_LIMIT);
             pw.println("IDS : " + IDS);
             pw.println("THROTTLE_POLICY : " + THROTTLE_POLICY);
-            pw.println("REQ_THROTTLE_POLICY : " + REQ_THROTTLE_POLICY);
+            pw.println("WS_THROTTLE_POLICY : " + WS_THROTTLE_POLICY);
 
             if (!HOST.equals("") && !TRANSPORT_PORT.equals("") && !CLIENT_KEY.equals("") && !CLIENT_SECRET.equals("")
                     && !USERNAME.equals("") && !PASSWORD.equals("") && !API_LIMIT.equals("") && !IDS.equals("")
-                    && !THROTTLE_POLICY.equals("") && !REQ_THROTTLE_POLICY.equals("")) {
-                String accessToken = generateAccessToken(pw);
+                    && !THROTTLE_POLICY.equals("") && !WS_THROTTLE_POLICY.equals("")) {
+
+                Scanner userInput = new Scanner(System.in);
                 System.out.println("*************************************************************");
-                pw.println("*************************************************************");
-                if (accessToken != null) {
-                    List<String> apiIds = retrieveAllAPIIds(accessToken, pw);
-                    if (apiIds.size() != 0) {
-                        System.out.println("*************************************************************");
-                        pw.println("*************************************************************");
-                        System.out.println("Total Number of APIs identified : " + apiIds.size());
-                        pw.println("Total Number of APIs identified : " + apiIds.size());
-                        System.out.println("*************************************************************");
-                        pw.println("*************************************************************");
-                        if(addSubscription(accessToken, apiIds, pw)){
-                            System.out.println("All the APIs were successfully subscribed into the given list of Applications.");
-                            pw.println("All the APIs were successfully subscribed into the given list of Applications.");
-                        } else {
-                            System.out.println("API Subscription was NOT successful.");
-                            pw.println("API Subscription was NOT successful.");
+                System.out.println("Hey, what would you like to do?");
+                System.out.println("Enter \"S\" to add the subscriptions");
+                System.out.println("OR");
+                System.out.println("Enter \"R\" to remove the subscriptions");
+                System.out.println("*************************************************************");
+                String action = userInput.nextLine();
+
+                if (action.equals("S")) {
+                    String accessToken = generateAccessToken(pw);
+                    System.out.println("*************************************************************");
+                    pw.println("*************************************************************");
+                    if (accessToken != null) {
+                        HashMap<String, String> apiIdTypeMap = retrieveAllAPIIds(accessToken, pw);
+                        if (apiIdTypeMap.size() != 0) {
+                            System.out.println("*************************************************************");
+                            pw.println("*************************************************************");
+                            System.out.println("Total Number of APIs identified : " + apiIdTypeMap.size());
+                            pw.println("Total Number of APIs identified : " + apiIdTypeMap.size());
+                            System.out.println("*************************************************************");
+                            pw.println("*************************************************************");
+                            if (addSubscription(accessToken, apiIdTypeMap, pw)) {
+                                System.out.println("All the APIs were subscribed successfully.");
+                                pw.println("All the APIs were subscribed successfully.");
+                            } else {
+                                System.out.println("API Subscription was NOT successful.");
+                                pw.println("API Subscription was NOT successful.");
+                            }
                         }
                     }
+
+                } else if (action.equals("R")) {
+                    String accessToken = generateAccessToken(pw);
+                    System.out.println("*************************************************************");
+                    pw.println("*************************************************************");
+                    if (accessToken != null) {
+                        if (removeSubscription(accessToken, pw)) {
+                            System.out.println("Subscription removing process is completed.");
+                            pw.println("Subscription removing process is completed.");
+                        } else {
+                            System.out.println("Subscription removing process was NOT completed.");
+                            pw.println("Subscription removing process was NOT completed.");
+                        }
+                    }
+                } else {
+                    System.out.println("You are only allowed to enter either S or R as the input. Please try again.");
+
                 }
             } else {
                 System.out.println("Parameters were not loaded correctly. Please check the integration.properties file.");
                 pw.println("Parameters were not loaded correctly. Please check the integration.properties file.");
             }
             pw.flush();
+        } catch (Exception e) {
+            System.out.println("An exception has been thrown when attempting complete the process : " + e);
+            pw.println("An exception has been thrown when attempting complete the process : " + e);
         } finally {
             try {
                 pw.close();
                 bw.close();
                 fw.close();
-                ctx.close();
-            } catch (IOException io) {
-                // can't do anything
                 ctx.close();
             } catch (Exception e) {
                 ctx.close();
@@ -220,13 +239,9 @@ public class Application {
                     pw.println("ACCESS TOKEN : " + accessToken);
                     return accessToken;
 
-                } catch (IOException e) {
+                } catch (Exception e) {
                     System.out.println("An exception has been thrown when attempting to read the response for the token service : " + e);
                     pw.println("An exception has been thrown when attempting to read the response for the token service : " + e);
-                    return null;
-                } catch (JSONException e) {
-                    return null;
-                } catch (Exception e) {
                     return null;
                 }
             } else {
@@ -235,18 +250,14 @@ public class Application {
                 return null;
             }
 
-        } catch (IOException e) {
-            return null;
-        } catch (NoSuchAlgorithmException e) {
-            return null;
-        } catch (KeyManagementException e) {
-            return null;
         } catch (Exception e) {
+            System.out.println("An exception has been thrown when attempting complete the token generation process : " + e);
+            pw.println("An exception has been thrown when attempting complete the token generation process : " + e);
             return null;
         }
     }
 
-    private static List<String> retrieveAllAPIIds(String accessToken, PrintWriter pw) {
+    private static HashMap<String, String> retrieveAllAPIIds(String accessToken, PrintWriter pw) {
         HttpGet httpGet = new HttpGet("https://" + HOST + ":" + TRANSPORT_PORT + "/api/am/devportal/v2.1/apis?limit=" + API_LIMIT);
         try {
             httpGet.setHeader("Accept", "application/json");
@@ -287,7 +298,8 @@ public class Application {
                     }
 //                    System.out.println("Full Response : " + sb.toString());
                     JSONObject object = new JSONObject(sb.toString());
-                    List<String> apiObjArr = new ArrayList<>();
+//                    List<String> apiObjArr = new ArrayList<>();
+                    HashMap<String, String> hashMap = new HashMap<>();
                     JSONArray jsonArray = object.getJSONArray("list");
 //                    System.out.println("List of All APIs : " + jsonArray);
                     if (jsonArray != null) {
@@ -298,28 +310,18 @@ public class Application {
                             String lifeCycleStatus = tempObj.getString("lifeCycleStatus");
                             String type = tempObj.getString("type");
                             if (!lifeCycleStatus.equals("DEPRECATED") && !lifeCycleStatus.equals("RETIRED")) {
-                                if (!type.equals("WS")) {
-                                    apiObjArr.add((String) tempObj.get("id"));
-                                } else {
-                                    System.out.println("WebSocket API is identified : " + tempObj.getString("id") + ". Hence, skipping updating the endpoints of the API");
-                                    pw.println("WebSocket API is identified : " + tempObj.getString("id") + ". Hence, skipping updating the endpoints of the API");
-                                }
+                                hashMap.put((String) tempObj.get("id"), type);
                             } else {
                                 System.out.println("Identified the API : " + tempObj.getString("id") + " is " + lifeCycleStatus);
                                 pw.println("Identified the API : " + tempObj.getString("id") + " is " + lifeCycleStatus);
                             }
                         }
                     }
-//                    System.out.println("All API Ids : "+apiObjArr.toString());
-                    return apiObjArr;
+                    return hashMap;
 
-                } catch (IOException e) {
+                } catch (Exception e) {
                     System.out.println("An exception has been thrown when attempting to read the response for the publisher get all api service : " + e);
                     pw.println("An exception has been thrown when attempting to read the response for the publisher get all api service : " + e);
-                    return null;
-                } catch (JSONException e) {
-                    return null;
-                } catch (Exception e) {
                     return null;
                 }
             } else {
@@ -328,13 +330,9 @@ public class Application {
                 return null;
             }
 
-        } catch (IOException e) {
-            return null;
-        } catch (NoSuchAlgorithmException e) {
-            return null;
-        } catch (KeyManagementException e) {
-            return null;
         } catch (Exception e) {
+            System.out.println("An exception has been thrown when attempting complete the retrieve all APIs process : " + e);
+            pw.println("An exception has been thrown when attempting complete the retrieve all APIs process : " + e);
             return null;
         }
     }
@@ -395,13 +393,9 @@ public class Application {
 //                    System.out.println("All API Ids : "+apiIdsList.toString());
                     return apiIdsList;
 
-                } catch (IOException e) {
+                } catch (Exception e) {
                     System.out.println("An exception has been thrown when attempting to read the response for the publisher get all api service : " + e);
                     pw.println("An exception has been thrown when attempting to read the response for the publisher get all api service : " + e);
-                    return null;
-                } catch (JSONException e) {
-                    return null;
-                } catch (Exception e) {
                     return null;
                 }
             } else {
@@ -410,18 +404,14 @@ public class Application {
                 return null;
             }
 
-        } catch (IOException e) {
-            return null;
-        } catch (NoSuchAlgorithmException e) {
-            return null;
-        } catch (KeyManagementException e) {
-            return null;
         } catch (Exception e) {
+            System.out.println("An exception has been thrown when attempting complete the check subscription process : " + e);
+            pw.println("An exception has been thrown when attempting complete the check subscription process : " + e);
             return null;
         }
     }
 
-    private static boolean addSubscription(String accessToken, List<String> apiIds, PrintWriter pw) {
+    private static boolean addSubscription(String accessToken, HashMap<String, String> apiIdTypeMap, PrintWriter pw) {
 
 
         HttpPost httpPost = new HttpPost("https://" + HOST + ":" + TRANSPORT_PORT + "/api/am/devportal/v2.1/subscriptions/multiple");
@@ -434,25 +424,32 @@ public class Application {
             System.out.println("*************************************************************");
             pw.println("*************************************************************");
             JSONArray jsonArray = new JSONArray();
-            for(int i=0; i<appIds.length; i++){
+            for (int i = 0; i < appIds.length; i++) {
                 List<String> subscribedApiIdsList = checkAPISubscription(accessToken, appIds[i], pw);
-                for(int j=0; j<apiIds.size(); j++){
-                    if(!subscribedApiIdsList.contains(apiIds.get(j))){
+                for (Map.Entry<String, String> entry : apiIdTypeMap.entrySet()) {
+                    String apiId = entry.getKey();
+                    String apiType = entry.getValue();
+                    if (!subscribedApiIdsList.contains(apiId)) {
                         JSONObject jsonObject = new JSONObject();
-                        jsonObject.put("apiId", apiIds.get(j));
+                        jsonObject.put("apiId", apiId);
                         jsonObject.put("applicationId", appIds[i]);
-                        jsonObject.put("throttlingPolicy", THROTTLE_POLICY);
-                        jsonObject.put("requestedThrottlingPolicy", REQ_THROTTLE_POLICY);
+                        if (apiType.equals(WS)) {
+                            jsonObject.put("throttlingPolicy", WS_THROTTLE_POLICY);
+                        } else {
+                            jsonObject.put("throttlingPolicy", THROTTLE_POLICY);
+                        }
                         jsonArray.put(jsonObject);
-                        System.out.println("API Id : "+apiIds.get(j)+" will going to be subscribed to : "+appIds[i]);
-                        pw.println("API Id : "+apiIds.get(j)+" will going to be subscribed to : "+appIds[i]);
+                        System.out.println("API Id : " + apiId + " API Type : " + apiType + " is going to be subscribed to : " + appIds[i]);
+                        pw.println("API Id : " + apiId + " API Type : " + apiType + " is going to be subscribed to : " + appIds[i]);
                     } else {
-                        System.out.println("API Id : "+apiIds.get(j)+" is already subscribed to Application Id : "+appIds[i]);
-                        pw.println("API Id : "+apiIds.get(j)+" is already subscribed to Application  Id : "+appIds[i]);
+                        System.out.println("API Id : " + apiId + " API Type : " + apiType + " is already subscribed to Application Id : " + appIds[i]);
+                        pw.println("API Id : " + apiId + " API Type : " + apiType + " is already subscribed to Application Id : " + appIds[i]);
                         System.out.println("*************************************************************");
                         pw.println("*************************************************************");
                     }
                 }
+                System.out.println("*************************************************************");
+                pw.println("*************************************************************");
             }
 
             StringEntity entity = new StringEntity(jsonArray.toString());
@@ -508,14 +505,153 @@ public class Application {
                 return false;
             }
 
-        } catch (IOException e) {
-            return false;
-        } catch (NoSuchAlgorithmException e) {
-            return false;
-        } catch (KeyManagementException e) {
-            return false;
         } catch (Exception e) {
+            System.out.println("An exception has been thrown when attempting complete the add subscription process : " + e);
+            pw.println("An exception has been thrown when attempting complete the add subscription process : " + e);
             return false;
+        }
+    }
+
+    private static boolean removeSubscription(String accessToken, PrintWriter pw) {
+        String[] appIds = IDS.split(",");
+        System.out.println("Total Number of Applications read from the configuration : " + appIds.length);
+        pw.println("Total Number of Applications read from the configuration : " + appIds.length);
+        System.out.println("*************************************************************");
+        pw.println("*************************************************************");
+        for (int i = 0; i < appIds.length; i++) {
+            List<String> subscriptionIds = getSubscription(accessToken, appIds[i], pw);
+            if (subscriptionIds != null && subscriptionIds.size() > 0) {
+                for (String subId : subscriptionIds) {
+                    HttpDelete httpDelete = new HttpDelete("https://" + HOST + ":" + TRANSPORT_PORT + "/api/am/devportal/v2/subscriptions/" + subId);
+                    try {
+                        httpDelete.setHeader(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken);
+
+                        TrustManager[] trustAllCerts = new TrustManager[]{
+                                new X509TrustManager() {
+                                    public java.security.cert.X509Certificate[] getAcceptedIssuers() {
+                                        return new X509Certificate[0];
+                                    }
+
+                                    public void checkClientTrusted(
+                                            java.security.cert.X509Certificate[] certs, String authType) {
+                                    }
+
+                                    public void checkServerTrusted(
+                                            java.security.cert.X509Certificate[] certs, String authType) {
+                                    }
+                                }
+                        };
+                        SSLContext sslContext = SSLContext.getInstance("SSL");
+                        sslContext.init(null, trustAllCerts, new java.security.SecureRandom());
+                        CloseableHttpClient client = HttpClients.custom()
+                                .setSSLContext(sslContext)
+                                .setSSLHostnameVerifier(NoopHostnameVerifier.INSTANCE)
+                                .build();
+
+                        CloseableHttpResponse response = client.execute(httpDelete);
+
+                        if (response.getStatusLine().getStatusCode() == 200) {
+                            StringBuilder sb = new StringBuilder();
+                            String line;
+                            try (BufferedReader reader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(),
+                                    StandardCharsets.UTF_8))) {
+                                while ((line = reader.readLine()) != null) {
+                                    sb.append(line + "\n");
+                                }
+                                System.out.println("Subscription Id : " + subId + " has been successfully removed for Application Id : " + appIds[i]);
+                                pw.println("Subscription Id : " + subId + " has been successfully removed for Application Id : " + appIds[i]);
+                            } catch (Exception e) {
+                                System.out.println("An exception has been thrown when attempting to read the response for the dev portal add subscription service : " + e);
+                                pw.println("An exception has been thrown when attempting to read the response for the dev portal add subscription service : " + e);
+                            }
+                        } else {
+                            System.out.println("Add Subscription API Returned Status Code : " + response.getStatusLine().getStatusCode());
+                            pw.println("Add Subscription API Returned Status Code : " + response.getStatusLine().getStatusCode());
+                            continue;
+                        }
+
+                    } catch (Exception e) {
+                        System.out.println("An exception has been thrown when attempting complete the remove subscription process : " + e);
+                        pw.println("An exception has been thrown when attempting complete the remove subscription process : " + e);
+                        return false;
+                    }
+                }
+                System.out.println("*************************************************************");
+                pw.println("*************************************************************");
+            }
+        }
+        return true;
+    }
+
+    private static List<String> getSubscription(String accessToken, String appId, PrintWriter pw) {
+
+        HttpGet httpGet = new HttpGet("https://" + HOST + ":" + TRANSPORT_PORT + "/api/am/devportal/v2/subscriptions?applicationId=" + appId);
+        try {
+            httpGet.setHeader(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken);
+
+            TrustManager[] trustAllCerts = new TrustManager[]{
+                    new X509TrustManager() {
+                        public java.security.cert.X509Certificate[] getAcceptedIssuers() {
+                            return new X509Certificate[0];
+                        }
+
+                        public void checkClientTrusted(
+                                java.security.cert.X509Certificate[] certs, String authType) {
+                        }
+
+                        public void checkServerTrusted(
+                                java.security.cert.X509Certificate[] certs, String authType) {
+                        }
+                    }
+            };
+            SSLContext sslContext = SSLContext.getInstance("SSL");
+            sslContext.init(null, trustAllCerts, new java.security.SecureRandom());
+            CloseableHttpClient client = HttpClients.custom()
+                    .setSSLContext(sslContext)
+                    .setSSLHostnameVerifier(NoopHostnameVerifier.INSTANCE)
+                    .build();
+
+            CloseableHttpResponse response = client.execute(httpGet);
+
+            if (response.getStatusLine().getStatusCode() == 200) {
+                StringBuilder sb = new StringBuilder();
+                String line;
+                try (BufferedReader reader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(),
+                        StandardCharsets.UTF_8))) {
+                    while ((line = reader.readLine()) != null) {
+                        sb.append(line + "\n");
+                    }
+                    JSONObject object = new JSONObject(sb.toString());
+                    JSONArray listOfSubsArr = (JSONArray) object.get("list");
+                    List<String> subscripitionList = new ArrayList<>();
+                    if (listOfSubsArr.length() > 0) {
+                        for (int i = 0; i < listOfSubsArr.length(); i++) {
+                            JSONObject jsonObject = listOfSubsArr.getJSONObject(i);
+                            subscripitionList.add(jsonObject.getString("subscriptionId"));
+                        }
+                    } else {
+                        System.out.println("No subscriptions available for the Application Id : " + appId);
+                        pw.println("No subscriptions available for the Application Id : " + appId);
+                    }
+                    return subscripitionList;
+
+                } catch (IOException e) {
+                    System.out.println("An exception has been thrown when attempting to read the response for the dev portal add subscription service : " + e);
+                    pw.println("An exception has been thrown when attempting to read the response for the dev portal add subscription service : " + e);
+                    return null;
+                } catch (Exception e) {
+                    return null;
+                }
+            } else {
+                System.out.println("Add Subscription API Returned Status Code : " + response.getStatusLine().getStatusCode());
+                pw.println("Add Subscription API Returned Status Code : " + response.getStatusLine().getStatusCode());
+                return null;
+            }
+
+        } catch (Exception e) {
+            System.out.println("An exception has been thrown when attempting complete the get subscription process : " + e);
+            pw.println("An exception has been thrown when attempting complete the get subscription process : " + e);
+            return null;
         }
     }
 
