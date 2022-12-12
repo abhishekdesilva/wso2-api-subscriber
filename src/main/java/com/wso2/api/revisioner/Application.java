@@ -112,14 +112,23 @@ public class Application {
                     && !USERNAME.equals("") && !PASSWORD.equals("") && !API_LIMIT.equals("") && !IDS.equals("")
                     && !THROTTLE_POLICY.equals("") && !WS_THROTTLE_POLICY.equals("")) {
 
-                Scanner userInput = new Scanner(System.in);
                 System.out.println("*************************************************************");
                 System.out.println("Hey, what would you like to do?");
                 System.out.println("Enter \"S\" to add the subscriptions");
                 System.out.println("OR");
                 System.out.println("Enter \"R\" to remove the subscriptions");
                 System.out.println("*************************************************************");
-                String action = userInput.nextLine();
+                String action;
+
+                while (true) {
+                    Scanner userInput = new Scanner(System.in);
+                    action = userInput.nextLine();
+                    if(action.equals("S") || action.equals("R")){
+                        break;
+                    }
+                    System.out.println("You are only allowed to enter either S or R as the input. Please try again.");
+
+                };
 
                 if (action.equals("S")) {
                     String accessToken = generateAccessToken(pw);
@@ -159,7 +168,6 @@ public class Application {
                     }
                 } else {
                     System.out.println("You are only allowed to enter either S or R as the input. Please try again.");
-
                 }
             } else {
                 System.out.println("Parameters were not loaded correctly. Please check the integration.properties file.");
