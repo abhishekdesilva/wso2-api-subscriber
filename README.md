@@ -17,14 +17,14 @@
 > - PASSWORD --> Admin password
 > - API_LIMIT --> This number should be higher than the number of APIs available in the Publisher
 > - IDS --> List of Application IDs that the APIs should be subscribed to
-> - THROTTLE_POLICY --> Throttle Policy that needs to be applied
-> - REQ_THROTTLE_POLICY --> Requested Throttle Policy that needs to be applied
+> - THROTTLE_POLICY --> REST Throttle Policy that needs to be applied
+> - WS_THROTTLE_POLICY --> WebSocket Throttle Policy that needs to be applied
+> - WS --> To check whether a certain API is either REST or WebSocket
 - The above parameters should be defined in a file named "integration.properties" in a directory named "resources". This directory should reside in the same directory in which the tool is.
 > <TOOL_HOME>/resources/integration.properties
 - A log file named "subscriber.log" will be generated in the "resources" directory once the tool is executed and completed its task.
-- When retrieving all APIs, the DEPRECATED and RETIRED APIs will be skipped as they cannot be published again.
-- The WebSocket APIs are NOT yet supported.
-- 
+- When retrieving all APIs, the DEPRECATED and RETIRED APIs will be skipped as they cannot be published and used again.
+- The WebSocket APIs are also supported.
 
 ### How to run
 - Build the tool
